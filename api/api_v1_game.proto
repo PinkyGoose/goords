@@ -1,0 +1,126 @@
+syntax = "proto3";
+
+package goords;
+
+// import "google/protobuf/timestamp.proto";
+service Game {
+    rpc register(RegisterRequest) returns (RegisterResponce);
+    rpc game(stream Command) returns (stream MessageFromServer);
+    // rpc login(LoginRequest) returns (LoginResponce);
+    // rpc quit(QuitRequest) returns (QuitResponce);
+    // rpc new_limit(NewLimitRequest) returns (NewLimitResponce);
+    // rpc add_row_to_data(AddRowToDataRequest) returns (AddRowToDataResponce);
+    // rpc new_list(NewListRequest) returns (NewListResponce);
+    // rpc get_all_data(GetAllDataRequest) returns (GetAllDataResponce);
+    // rpc get_all_limits(GetAllLimitsRequest) returns (GetAllLimitsResponce);
+}
+message RegisterRequest{
+    string username = 1;
+    string mail = 2;
+    string encrypted_pass = 3;
+}
+message RegisterResponce{
+    // QueryStatus status = 1;
+    string token = 2;
+}
+
+message Command{
+    oneof test_oneof {
+        CardOnTable_Creature name = 1;
+        GetCardFromDeck sub_message = 2;
+    }
+}
+message MessageFromServer{
+    oneof test_oneof {
+        CardOnTable_Creature name = 1;
+        GetCardFromDeck sub_message = 2;
+    }
+}
+
+message CardOnTable_Creature{
+    string jija = 1;
+}
+message GetCardFromDeck{
+    string jipp = 2;
+    string joja = 1;
+}
+// message LoginRequest{
+//     string username = 1;
+//     string token = 2;
+//     string encrypted_pass =3;
+    
+// }
+// message LoginResponce{
+//     string token = 1;
+// }
+
+// message QuitRequest{
+//     string username = 1;
+//     string token = 2;
+// }
+// message QuitResponce{
+//     QueryStatus stat = 1;
+// }
+
+// message AddRowToDataRequest{
+//     RowData data = 1;
+// }
+// message AddRowToDataResponce{
+//     QueryStatus status = 1;
+// }
+// message RowData{
+//     MoneyType type = 1;
+//     string listName = 2;
+//     float sum = 3;
+
+// }
+// message NewLimitRequest{
+//     Limit lim = 1;
+// }
+// message NewLimitResponce{
+//     QueryStatus status = 1;
+// }
+// message NewListRequest{
+//     MoneyType type = 1;
+//     string listName = 2;
+
+// }
+// message NewListResponce{
+//     QueryStatus status = 1;
+// }
+// message Limit{
+//     string listName = 1;
+//     float lim = 2;
+//     google.protobuf.Timestamp startData = 3;
+
+// }
+// enum MoneyType{
+//     UNKNOWN_TYPE = 0;
+//     INVESTMENT = 1;
+//     EXPENSES = 2;
+// }
+// enum QueryStatus{
+//     UNKNOWN_QS = 0;
+//     OK = 1;
+//     DENIED = 2;
+// }
+// message GetAllDataRequest{
+//     string username = 1;
+// }
+
+// message GetAllDataResponce{
+//     repeated RowData datas = 1;
+// }
+// message GetAllLimitsRequest{
+//     string username = 1;
+// }
+// message GetAllLimitsResponce{
+//     repeated Limit limits = 1;
+// }
+// message TODO{
+//     //TODO разобраться с oneof
+//     oneof test_oneof {
+//         RegisterRequest name = 4;
+//         LoginRequest sub_message = 9;
+//       }
+// }
