@@ -53,24 +53,11 @@ impl Game for Mon {
         // let a=request.into_inner();
 
         let (tx, mut rx) = mpsc::channel(4);
-        // let a = request.remote_addr();
-        let mut planets: Vec<MessageFromServer> = vec![]; //= persistence::repository::get_all(&get_connection(&self.pool))
+        let mut planets: Vec<MessageFromServer> = vec![]; 
         planets.push(MessageFromServer{ test_oneof: Some(message_from_server::TestOneof::Name(CardOnTableCreature{jija: String::from("Khjoireg1")}))});
         planets.push(MessageFromServer{ test_oneof: Some(message_from_server::TestOneof::Name(CardOnTableCreature{jija: String::from("Khjoireg2")}))});
         planets.push(MessageFromServer{ test_oneof: Some(message_from_server::TestOneof::SubMessage(GetCardFromDeck{jipp:String::from("Jipp1") ,joja:String::from("Joja1")}))});
         planets.push(MessageFromServer{ test_oneof: Some(message_from_server::TestOneof::SubMessage(GetCardFromDeck{jipp:String::from("Jipp2") ,joja:String::from("Joja2")}))});
-        // match request{}
-        
-            // .expect("Can't load planets")
-            // .into_iter()
-            // .map(|p| {
-            //     PlanetWrapper {
-            //         planet: p.0,
-            //         satellites: p.1,
-            //     }
-            //     .into()
-            // })
-            // .collect();
 
         tokio::spawn(async move {
             let mut stream = tokio_stream::iter(&planets);
@@ -82,25 +69,6 @@ impl Game for Mon {
                 .unwrap();
             }
         });
-        
-        // tokio::spawn(async move {
-        //     loop {
-        //         match rx.try_recv() {
-        //             Ok(_) => todo!(),
-        //             Err(_) => todo!(),
-        //         }
-                          
-                
-        //     }
-        //     // let mut stream = tokio_stream::iter(&planets);
-
-        //     // while let Some(planet) = stream.next().await {
-        //     //     tx.send(Ok(MessageFromServer {test_oneof: Some(planet.test_oneof.clone().unwrap()) }
-        //     //     ))
-        //     //     .await
-        //     //     .unwrap();
-        //     // }
-        // });
         Ok(Response::new(Box::pin(
             tokio_stream::wrappers::ReceiverStream::new(rx),
         )))

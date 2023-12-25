@@ -25,25 +25,75 @@ message RegisterResponce{
 }
 
 message Command{
-    oneof test_oneof {
-        CardOnTable_Creature name = 1;
-        GetCardFromDeck sub_message = 2;
+    oneof comma {
+        // CardOnTable_Creature name = 1;
+        // GetCardFromDeck get_card_from_deck = 2;
     }
 }
 message MessageFromServer{
-    oneof test_oneof {
-        CardOnTable_Creature name = 1;
-        GetCardFromDeck sub_message = 2;
+    oneof message {
+        // CardOnTable_Creature name = 1;
+        GetCardFromDeck sub_message = 1;
+    }
+}
+message GetCardFromDeck{
+    repeated Card cards = 1;
+}
+message Card {
+    string name = 1;
+    int32 cost = 2;
+    reserved 3 to 10;
+    oneof card_type{
+        Creature creature = 11;
+        Spell spell = 12;
+    }
+}
+message Creature{
+    int64 attack = 2;
+    int64 health = 3;
+    SpecialProperty special_property = 4;
+}
+message Spell{
+    int64 target_count = 1;
+}
+
+message SpecialProperty{
+    oneof special_property {
+        SamTakoi samtakoi= 1;
+        Kijaaaa kija= 2;
     }
 }
 
-message CardOnTable_Creature{
-    string jija = 1;
+message Kijaaaa{
+
 }
-message GetCardFromDeck{
-    string jipp = 2;
-    string joja = 1;
+message SamTakoi{
+    
 }
+message Target{
+    reserved 1 to 10;
+    oneof hero_or_creature{ 
+        Which hero = 11;
+        CreaturePosition position = 12;
+    }
+}
+message CreaturePosition{
+    reserved 1;
+    Which which = 2;
+    int64 position = 3;
+}
+enum Which {
+    UNKNOWN = 1;
+    My = 2;
+    His = 3;
+}
+// message CardOnTable_Creature{
+//     string jija = 1;
+// }
+// message GetCardFromDeck{
+//     string jipp = 2;
+//     string joja = 1;
+// }
 // message LoginRequest{
 //     string username = 1;
 //     string token = 2;
